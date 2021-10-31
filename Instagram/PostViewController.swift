@@ -15,10 +15,17 @@ class PostViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var textField: UITextField!
     
+
+    
     // 投稿ボタンをタップしたときに呼ばれるメソッド
     @IBAction func handlePostButton(_ sender: Any) {
         // 画像をJPEG形式に変換する
         let imageData = image.jpegData(compressionQuality: 0.75)
+        
+        // 角丸にする ← original
+        imageView.layer.cornerRadius = imageView.frame.size.width * 0.5
+        imageView.clipsToBounds = true
+        
         // 画像と投稿データの保存場所を定義する
         let postRef = Firestore.firestore().collection(Const.PostPath).document()
         let imageRef = Storage.storage().reference().child(Const.ImagePath).child(postRef.documentID + ".jpg")
@@ -62,8 +69,42 @@ class PostViewController: UIViewController {
         
         // 受け取った画像をImageViewに設定する
         imageView.image = image
+        
+        // original　↓
+        
+        // UIImage インスタンスの生成
+        // let image:UIImage = UIImage(named:"img")!
+                
+                // UIImageView 初期化
+                let imageView = UIImageView(image:image)
+                
+                // 画面の横幅を取得
+                let screenWidth:CGFloat = view.frame.size.width
+                let screenHeight:CGFloat = view.frame.size.height
+                
+                // 画像の幅・高さの取得
+                let imgWidth = image.size.width
+                let imgHeight = image.size.height
+                
+                // 画像サイズをスクリーン幅に合わせる
+                let scale = screenWidth / imgWidth * 0.9
+                let rect:CGRect = CGRect(x:0, y:0,
+                                  width:imgWidth*scale, height:imgHeight*scale)
+         
+                // ImageView frame をCGRectで作った矩形に合わせる
+                imageView.frame = rect;
+                
+                // 画像の中心を画面の中心に設定
+                imageView.center = CGPoint(x:screenWidth/2, y:screenHeight/2)
+         
+                // 角丸にする
+                imageView.layer.cornerRadius = imageView.frame.size.width * 0.5
+                imageView.clipsToBounds = true
+                
+                // UIImageViewのインスタンスをビューに追加
+                self.view.addSubview(imageView)
+        
 
-        // Do any additional setup after loading the view.
     }
     
 

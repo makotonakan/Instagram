@@ -36,7 +36,11 @@ class PostTableViewCell: UITableViewCell {
             postImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
             let imageRef = Storage.storage().reference().child(Const.ImagePath).child(postData.id + ".jpg")
             postImageView.sd_setImage(with: imageRef)
-
+            
+            // 角丸にする (original)
+                    postImageView.layer.cornerRadius = postImageView.frame.size.width * 0.5
+                    postImageView.clipsToBounds = true
+            
             // キャプションの表示
             self.captionLabel.text = "\(postData.name!) : \(postData.caption!)"
 
@@ -68,4 +72,7 @@ class PostTableViewCell: UITableViewCell {
                  }
             self.commentLabel.text = comments
         }
+
+    
+    
 }

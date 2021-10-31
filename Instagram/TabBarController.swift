@@ -44,7 +44,6 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
             return true
         }
     }
-    
 
     /*
     // MARK: - Navigation
